@@ -4,7 +4,7 @@ pipeline {
         // These IDs map to the secrets we will create in Jenkins UI
         DOCKER_CREDS = 'dockerhub-creds'
         KUBE_CREDS = 'kubeconfig-creds'
-        IMAGE_NAME = 'vishalkayande/webapp' 
+        IMAGE_NAME = 'vishalskayande121/webapp'
         TAG = "${env.BUILD_NUMBER}"
     }
     stages {
