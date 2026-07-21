@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CI/CD Pipeline Project</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; margin: 0; color: #333; }
+        header { background-color: #0f172a; color: white; padding: 3rem 0; text-align: center; }
+        .container { max-width: 900px; margin: -2rem auto 2rem; background: white; padding: 2.5rem; border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); position: relative; }
+        h1 { margin: 0; font-size: 2.5rem; letter-spacing: -0.5px; }
+        h2 { color: #2563eb; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; margin-top: 2rem; }
+        .architecture-img { width: 100%; border-radius: 8px; margin: 1.5rem 0; border: 1px solid #e2e8f0; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .card { background: #f8fafc; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #2563eb; }
+        .card h3 { margin-top: 0; color: #0f172a; }
+        footer { text-align: center; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid #e2e8f0; color: #64748b; font-weight: 500; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Automated CI/CD Pipeline</h1>
+        <p>Engineered and Deployed by Vishal Kayande</p>
+    </header>
+    <div class="container">
+        <h2>System Architecture</h2>
+        <p>This live web application is running inside a Kubernetes Pod. Code changes pushed to GitHub automatically trigger a build, containerization, and rollout to the cluster.</p>
+        
+        <!-- Pulls a diagram to make the page look like a professional dashboard -->
+        <img src="https://miro.medium.com/v2/resize:fit:2000/1*CH2R5552IjZCTqhgaBpXHw.jpeg" alt="CI/CD Architecture" class="architecture-img">
+        
+        <h2>Pipeline Stages</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>1. Source Control</h3>
+                <p>GitHub webhook detects a push event and sends a JSON payload to the Jenkins VM.</p>
+            </div>
+            <div class="card">
+                <h3>2. Integration</h3>
+                <p>Jenkins clones the repository, builds the Docker image, and applies the BUILD_NUMBER as the tag.</p>
+            </div>
+            <div class="card">
+                <h3>3. Registry Push</h3>
+                <p>Jenkins securely authenticates with Docker Hub and pushes the versioned image.</p>
+            </div>
+            <div class="card">
+                <h3>4. K8s Deployment</h3>
+                <p>Jenkins updates the deployment.yaml with the new tag and applies it to the Kubernetes cluster.</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Status: Live Container • Managed via Kubernetes NodePort</p>
+        </footer>
+    </div>
+</body>
+</html>
