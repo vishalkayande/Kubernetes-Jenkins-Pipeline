@@ -15,7 +15,7 @@ spec:
       containers:
       - name: webapp-container
         # Jenkins will dynamically update 'latest' to the actual build number
-        image: vishalkayande/webapp:latest 
+        image: vishalskayande121/webapp:latest
         ports:
         - containerPort: 80
         imagePullPolicy: Always
