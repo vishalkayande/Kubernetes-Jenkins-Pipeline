@@ -8,9 +8,9 @@ pipeline {
         TAG = "${env.BUILD_NUMBER}"
     }
     stages {
-        stage('Clone Git Repository') {
+               stage('Clone Git Repository') {
             steps {
-                git branch: 'main', url: 'https://github.com/vishalkayande/webapp.git'
+                git branch: 'main', url: 'https://github.com/vishalkayande/Kubernetes-Jenkins-Pipeline.git'
             }
         }
         stage('Build Docker Image') {
