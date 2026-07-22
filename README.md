@@ -1,4 +1,4 @@
-# 🚀 Automated CI/CD Pipeline for K8s Web Deployment
+# 🚀 Automated CI/CD Pipeline for K8s Web Deployment Using Jenkins !
 
 A fully automated Continuous Integration and Continuous Deployment (CI/CD) pipeline engineered to streamline web application rollouts. This architecture achieves zero-downtime deployments, automating the journey from a GitHub code push directly to a live Kubernetes cluster.
 
@@ -21,31 +21,31 @@ graph LR
 
     User((End Users))
 
-    subgraph "Public Internet Layer"
+    subgraph Layer1 ["Public Internet Layer"]
         GH[GitHub Repository]
         DH[(Docker Hub)]
     end
-    class "Public Internet Layer" public
+    class Layer1 public
 
-    subgraph "Private Virtual Machine Network"
-        subgraph "Automation Tier"
+    subgraph Layer2 ["Private Virtual Machine Network"]
+        subgraph Tier1 ["Automation Tier"]
             Ngrok[Ngrok Tunnel]
             Jenkins[Jenkins Server]
             Ngrok -->|Forwards| Jenkins
         end
-        class "Automation Tier" cicd
+        class Tier1 cicd
 
-        subgraph "Orchestration Tier"
+        subgraph Tier2 ["Orchestration Tier"]
             KubeAPI[Kubernetes Master Node]
         end
-        class "Orchestration Tier" k8s
+        class Tier2 k8s
 
-        subgraph "Application Tier"
+        subgraph Tier3 ["Application Tier"]
             Svc[NodePort Service :30080]
             Pod[Web App Pods]
             Svc --- Pod
         end
-        class "Application Tier" worker
+        class Tier3 worker
     end
 
     GH -- "1. Webhook" --> Ngrok
