@@ -1,8 +1,9 @@
 # 🚀 Automated CI/CD Pipeline for K8s Web Deployment Using Jenkins !
 
-A fully automated Continuous Integration and Continuous Deployment (CI/CD) pipeline engineered to streamline web application rollouts. This architecture achieves zero-downtime deployments, automating the journey from a GitHub code push directly to a live Kubernetes cluster.
+A fully automated Continuous Integration and Continuous Deployment (CI/CD) pipeline engineered to streamline web application rollouts. I built this architecture to achieve zero-downtime deployments, fully automating the journey from a simple GitHub code push directly to a live Kubernetes cluster.
 
 ## ⚙️ Tech Stack
+
 *   **Source Control:** Git & GitHub
 *   **CI/CD Engine:** Jenkins
 *   **Containerization:** Docker & Docker Hub
@@ -12,46 +13,21 @@ A fully automated Continuous Integration and Continuous Deployment (CI/CD) pipel
 
 ## 🏗️ System Architecture
 
-```mermaid
-graph LR
-    classDef public bg:#f3f4f6,stroke:#9ca3af,stroke-width:2px,stroke-dasharray: 5 5;
-    classDef cicd bg:#fef08a,stroke:#eab308,stroke-width:2px;
-    classDef k8s bg:#bfdbfe,stroke:#3b82f6,stroke-width:2px;
-    classDef worker bg:#fecaca,stroke:#ef4444,stroke-width:2px;
+This project spans across three distinct environments: a source code repository, a dedicated Jenkins CI server, and a two-node Kubernetes orchestration cluster.
 
-    User((End Users))
+1.  **Code Commit:** Code updates (HTML/CSS) are pushed to the `main` branch on GitHub.
+2.  **Continuous Integration:** A GitHub Webhook detects the push and instantly triggers the Jenkins pipeline.
+3.  **Container Build:** Jenkins clones the repository, builds a new Docker image, and dynamically tags it with the unique Jenkins `$BUILD_NUMBER`.
+4.  **Registry Push:** Jenkins securely authenticates with Docker Hub and pushes the versioned container image.
+5.  **Continuous Deployment:** Jenkins connects to the Kubernetes Master Node, dynamically updates the `deployment.yaml` with the new image tag, and applies the rollout.
+6.  **User Access:** The updated web application is instantly accessible to end-users via a Kubernetes NodePort.
 
-    subgraph Layer1 ["Public Internet Layer"]
-        GH[GitHub Repository]
-        DH[(Docker Hub)]
-    end
-    class Layer1 public
+## 📂 Repository Structure
 
-    subgraph Layer2 ["Private Virtual Machine Network"]
-        subgraph Tier1 ["Automation Tier"]
-            Ngrok[Ngrok Tunnel]
-            Jenkins[Jenkins Server]
-            Ngrok -->|Forwards| Jenkins
-        end
-        class Tier1 cicd
-
-        subgraph Tier2 ["Orchestration Tier"]
-            KubeAPI[Kubernetes Master Node]
-        end
-        class Tier2 k8s
-
-        subgraph Tier3 ["Application Tier"]
-            Svc[NodePort Service :30080]
-            Pod[Web App Pods]
-            Svc --- Pod
-        end
-        class Tier3 worker
-    end
-
-    GH -- "1. Webhook" --> Ngrok
-    Jenkins -- "2. clone" --> GH
-    Jenkins -- "3. docker push" --> DH
-    Jenkins -- "4. kubectl apply" --> KubeAPI
-    KubeAPI -- "5. Deploy" --> Pod
-    Pod -. "6. Image Pull" .-> DH
-    User -- "7. HTTP Access" --> Svc
+```text
+├── Dockerfile              # Instructions to containerize the Nginx web application
+├── Jenkinsfile             # Declarative multi-stage Jenkins pipeline script
+├── index.html              # The main web application source code
+└── k8s/
+    ├── deployment.yaml     # Defines the K8s Pod replicas and container specs
+    └── service.yaml        # Exposes the application to the internet via NodePort
